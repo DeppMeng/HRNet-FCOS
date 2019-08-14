@@ -71,7 +71,7 @@ class CocoHuman(torchvision.datasets.coco.CocoDetection):
         # anno = [obj for obj in anno if obj["iscrowd"] == 0]
         anno = [
             obj for obj in anno
-            if obj['iscrowd'] == 0 and obj['num_keypoints'] > 0
+            if obj['iscrowd'] == 0 or obj['num_keypoints'] > 0
         ]
 
         boxes = [obj["bbox"] for obj in anno]
