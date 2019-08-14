@@ -12,7 +12,7 @@ MODEL:
 DATASETS:
   TRAIN: ("kpt_coco_2017_train",)
   TEST: ("kpt_coco_2017_val",)
-  ROOT: '/depudata1/coco'
+  # ROOT: '/depudata1/coco'
 INPUT:
   MIN_SIZE_TRAIN: (800,)
   MAX_SIZE_TRAIN: 1333
