@@ -78,14 +78,20 @@ class CocoHuman(torchvision.datasets.coco.CocoDetection):
         boxes = torch.as_tensor(boxes).reshape(-1, 4)  # guard against no boxes
         target = BoxList(boxes, img.size, mode="xywh").convert("xyxy")
 
+        assert isinstance(target, BoxList), 'failed at loc1'
+
         classes = [obj["category_id"] for obj in anno]
         classes = [self.json_category_id_to_contiguous_id[c] for c in classes]
         classes = torch.tensor(classes)
         target.add_field("labels", classes)
 
+        assert isinstance(target, BoxList), 'failed at loc2'
+
         masks = [obj["segmentation"] for obj in anno]
         masks = SegmentationMask(masks, img.size, mode='poly')
         target.add_field("masks", masks)
+        
+        assert isinstance(target, BoxList), 'failed at loc3'
 
         if anno and "keypoints" in anno[0]:
             keypoints = [obj["keypoints"] for obj in anno]
@@ -93,6 +99,8 @@ class CocoHuman(torchvision.datasets.coco.CocoDetection):
             target.add_field("keypoints", keypoints)
 
         target = target.clip_to_image(remove_empty=True)
+        
+        assert isinstance(target, BoxList), 'failed at loc4'
 
         if self.transforms is not None:
             img, target = self.transforms(img, target)
