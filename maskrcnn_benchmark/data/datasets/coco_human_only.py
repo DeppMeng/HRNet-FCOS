@@ -71,7 +71,7 @@ class CocoHuman(torchvision.datasets.coco.CocoDetection):
         # anno = [obj for obj in anno if obj["iscrowd"] == 0]
         anno = [
             obj for obj in anno
-            if obj['iscrowd'] == 0 or obj['num_keypoints'] > 0
+            if obj['iscrowd'] == 0 and obj['num_keypoints'] > 0
         ]
 
         boxes = [obj["bbox"] for obj in anno]
@@ -87,10 +87,10 @@ class CocoHuman(torchvision.datasets.coco.CocoDetection):
         masks = SegmentationMask(masks, img.size, mode='poly')
         target.add_field("masks", masks)
 
-        # if anno and "keypoints" in anno[0]:
-        #     keypoints = [obj["keypoints"] for obj in anno]
-        #     keypoints = PersonKeypoints(keypoints, img.size)
-        #     target.add_field("keypoints", keypoints)
+        if anno and "keypoints" in anno[0]:
+            keypoints = [obj["keypoints"] for obj in anno]
+            keypoints = PersonKeypoints(keypoints, img.size)
+            target.add_field("keypoints", keypoints)
 
         target = target.clip_to_image(remove_empty=True)
 
