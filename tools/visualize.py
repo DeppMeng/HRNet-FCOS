@@ -7,6 +7,7 @@ import numpy as np
 
 pylab.rcParams['figure.figsize'] = (8.0, 10.0)
 
+from pycocotools.coco import COCO
 from maskrcnn_benchmark.config import cfg
 from demo.predictor import COCODemo
 
@@ -37,6 +38,7 @@ def main():
         help="path to config file",
         type=str,
     )
+    args = parser.parse_args()
     cfg.merge_from_file(args.config_file)
     cfg.merge_from_list(["MODEL.DEVICE", "cpu"])
 
