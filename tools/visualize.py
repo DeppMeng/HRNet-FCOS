@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.pylab as pylab
 
 from io import BytesIO
+import skimage.io as io
 from PIL import Image
 import numpy as np
 
