@@ -2,7 +2,7 @@ MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
   RPN_ONLY: True
   FCOS_ON: True
-  SYNC_BN: True
+  SYNCBN: True
   BACKBONE:
     CONV_BODY: "HRNET-W32"
   RETINANET:
