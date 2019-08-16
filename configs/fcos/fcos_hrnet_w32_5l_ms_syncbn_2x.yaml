@@ -24,3 +24,4 @@ SOLVER:
   MAX_ITER: 180000
   IMS_PER_BATCH: 16
   WARMUP_METHOD: "constant"
+OUTPUT_DIR: "/depudata1/fcos_hrnet_w32_5l_ms_syncbn_2x"
