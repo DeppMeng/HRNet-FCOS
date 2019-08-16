@@ -18,7 +18,6 @@ def do_coco_evaluation(
     iou_types,
     expected_results,
     expected_results_sigma_tol,
-    only_human=False,
 ):
     logger = logging.getLogger("maskrcnn_benchmark.inference")
 
@@ -57,15 +56,9 @@ def do_coco_evaluation(
             file_path = f.name
             if output_folder:
                 file_path = os.path.join(output_folder, iou_type + ".json")
-            if only_human:
-                res = evaluate_predictions_only_human_on_coco(
-                    dataset.coco, coco_results[iou_type], file_path, iou_type
-                )
-            else:
-                res = evaluate_predictions_on_coco(
-                    dataset.coco, coco_results[iou_type], file_path, iou_type
-                )
-
+            res = evaluate_predictions_on_coco(
+                dataset.coco, coco_results[iou_type], file_path, iou_type
+            )
             results.update(res)
     logger.info(results)
     check_expected_results(results, expected_results, expected_results_sigma_tol)
@@ -310,30 +303,6 @@ def evaluate_box_proposals(
 
 
 def evaluate_predictions_on_coco(
-    coco_gt, coco_results, json_result_file, iou_type="bbox"
-):
-    import json
-
-    with open(json_result_file, "w") as f:
-        json.dump(coco_results, f)
-
-    from pycocotools.coco import COCO
-    from pycocotools.cocoeval import COCOeval
-
-    coco_dt = coco_gt.loadRes(str(json_result_file)) if coco_results else COCO()
-
-    # coco_dt = coco_gt.loadRes(coco_results)
-    coco_eval = COCOeval(coco_gt, coco_dt, iou_type)
-    coco_eval.evaluate()
-    coco_eval.accumulate()
-    coco_eval.summarize()
-
-    compute_thresholds_for_classes(coco_eval)
-
-    return coco_eval
-
-
-def evaluate_predictions_only_human_on_coco(
     coco_gt, coco_results, json_result_file, iou_type="bbox"
 ):
     import json
