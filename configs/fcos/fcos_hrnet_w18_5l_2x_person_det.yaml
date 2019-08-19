@@ -20,7 +20,7 @@ INPUT:
   MAX_SIZE_TEST: 1333
 DATALOADER:
   SIZE_DIVISIBILITY: 32
-OUTPUT_DIR: "/depudata1/fcos_hrnet_w18_5l_2x_person_det1"
+OUTPUT_DIR: "/mnt/depuazure/fcos_hrnet_w18_5l_2x_person_det1"
 SOLVER:
   BASE_LR: 0.01
   WEIGHT_DECAY: 0.0001
