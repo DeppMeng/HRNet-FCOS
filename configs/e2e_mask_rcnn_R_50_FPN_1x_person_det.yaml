@@ -41,3 +41,4 @@ SOLVER:
   MAX_ITER: 90000
 INPUT:
   MIN_SIZE_RANGE_TRAIN: (640, 800)
+OUTPUT_DIR: "/mnt/depuazure/e2e_mask_rcnn_R_50_FPN_1x_person_det"
