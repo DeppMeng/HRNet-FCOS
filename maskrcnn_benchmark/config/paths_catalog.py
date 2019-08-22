@@ -15,6 +15,14 @@ class DatasetCatalog(object):
             "img_dir": "coco/val2017",
             "ann_file": "coco/annotations/person_keypoints_val2017.json"
         },
+        "nonzero_kpt_coco_2017_train": {
+            "img_dir": "coco/train2017",
+            "ann_file": "coco/annotations/person_nonzero_keypoints_train2017.json"
+        },
+        "nonzero_kpt_coco_2017_val": {
+            "img_dir": "coco/val2017",
+            "ann_file": "coco/annotations/person_nonzero_keypoints_val2017.json"
+        },
         "coco_2017_train": {
             "img_dir": "coco/train2017",
             "ann_file": "coco/annotations/instances_train2017.json"
