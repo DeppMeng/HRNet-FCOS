@@ -56,7 +56,7 @@ def main():
     cfg.freeze()
 
     save_dir = ""
-    # logger = setup_logger("maskrcnn_benchmark", save_dir, get_rank())
+    logger = setup_logger("maskrcnn_benchmark", save_dir)
     # logger.info("Using {} GPUs".format(num_gpus))
     # logger.info(cfg)
 
