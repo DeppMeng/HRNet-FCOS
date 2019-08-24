@@ -429,7 +429,7 @@ def evaluate_json_file_only_human_on_coco(
 
     coco_dt = coco_gt.loadRes(str(json_result_file))
 
-    print(coco_dt[0])
+    print(coco_dt.dataset['annotations'][0])
     # coco_dt = coco_gt.loadRes(coco_results)
     coco_eval = COCOeval(coco_gt, coco_dt, iou_type)
     coco_eval.params.catIds = [1]
