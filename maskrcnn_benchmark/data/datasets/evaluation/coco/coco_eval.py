@@ -74,6 +74,64 @@ def do_coco_evaluation(
     return results, coco_results
 
 
+def do_coco_json_evaluation(
+    dataset,
+    json_file,
+    box_only,
+    output_folder,
+    iou_types,
+    expected_results,
+    expected_results_sigma_tol,
+):
+    logger = logging.getLogger("maskrcnn_benchmark.inference")
+
+    # if box_only:
+    #     logger.info("Evaluating bbox proposals")
+    #     areas = {"all": "", "small": "s", "medium": "m", "large": "l"}
+    #     res = COCOResults("box_proposal")
+    #     for limit in [100, 1000]:
+    #         for area, suffix in areas.items():
+    #             stats = evaluate_box_proposals(
+    #                 predictions, dataset, area=area, limit=limit
+    #             )
+    #             key = "AR{}@{:d}".format(suffix, limit)
+    #             res.results["box_proposal"][key] = stats["ar"].item()
+    #     logger.info(res)
+    #     check_expected_results(res, expected_results, expected_results_sigma_tol)
+    #     if output_folder:
+    #         torch.save(res, os.path.join(output_folder, "box_proposals.pth"))
+    #     return
+    # logger.info("Preparing results for COCO format")
+    # coco_results = {}
+    # if "bbox" in iou_types:
+    #     logger.info("Preparing bbox results")
+    #     coco_results["bbox"] = prepare_for_coco_detection(predictions, dataset)
+    # if "segm" in iou_types:
+    #     logger.info("Preparing segm results")
+    #     coco_results["segm"] = prepare_for_coco_segmentation(predictions, dataset)
+    # if 'keypoints' in iou_types:
+    #     logger.info('Preparing keypoints results')
+    #     coco_results['keypoints'] = prepare_for_coco_keypoint(predictions, dataset)
+
+    iou_types = ['bbox',]
+    results = COCOResults(*iou_types)
+    logger.info("Evaluating predictions")
+    for iou_type in iou_types:
+        with tempfile.NamedTemporaryFile() as f:
+            # file_path = f.name
+            # if output_folder:
+            #     file_path = os.path.join(output_folder, iou_type + ".json")
+            res = evaluate_json_file_only_human_on_coco(
+                dataset.coco, json_file, iou_type
+            )
+            results.update(res)
+    logger.info(results)
+    check_expected_results(results, expected_results, expected_results_sigma_tol)
+    # if output_folder:
+    #     torch.save(results, os.path.join(output_folder, "coco_results.pth"))
+    return results
+
+
 def prepare_for_coco_detection(predictions, dataset):
     # assert isinstance(dataset, COCODataset)
     coco_results = []
@@ -345,6 +403,31 @@ def evaluate_predictions_only_human_on_coco(
     from pycocotools.cocoeval import COCOeval
 
     coco_dt = coco_gt.loadRes(str(json_result_file)) if coco_results else COCO()
+
+    # coco_dt = coco_gt.loadRes(coco_results)
+    coco_eval = COCOeval(coco_gt, coco_dt, iou_type)
+    coco_eval.params.catIds = [1]
+    coco_eval.evaluate()
+    coco_eval.accumulate()
+    coco_eval.summarize()
+
+    compute_thresholds_for_classes(coco_eval)
+
+    return coco_eval
+
+
+def evaluate_json_file_only_human_on_coco(
+    coco_gt, json_result_file, iou_type="bbox"
+):
+    import json
+
+    # with open(json_result_file, "w") as f:
+    #     json.dump(coco_results, f)
+
+    from pycocotools.coco import COCO
+    from pycocotools.cocoeval import COCOeval
+
+    coco_dt = coco_gt.loadRes(str(json_result_file))
 
     # coco_dt = coco_gt.loadRes(coco_results)
     coco_eval = COCOeval(coco_gt, coco_dt, iou_type)
