@@ -17,7 +17,7 @@ from maskrcnn_benchmark.data.datasets.evaluation import evaluate
 from maskrcnn_benchmark.data.datasets.evaluation.coco.coco_eval import do_coco_json_evaluation
 import ptvsd 
 
-ptvsd.enable_attach(address =('0.0.0.0',8848))
+ptvsd.enable_attach(address =('0.0.0.0',4397))
 ptvsd.wait_for_attach()
 
 def main():
