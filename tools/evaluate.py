@@ -15,10 +15,10 @@ from maskrcnn_benchmark.utils.logger import setup_logger
 from maskrcnn_benchmark.utils.miscellaneous import mkdir
 from maskrcnn_benchmark.data.datasets.evaluation import evaluate
 from maskrcnn_benchmark.data.datasets.evaluation.coco.coco_eval import do_coco_json_evaluation
-import ptvsd 
+# import ptvsd 
 
-ptvsd.enable_attach(address =('0.0.0.0',4397))
-ptvsd.wait_for_attach()
+# ptvsd.enable_attach(address =('0.0.0.0',4397))
+# ptvsd.wait_for_attach()
 
 def main():
     parser = argparse.ArgumentParser(description="PyTorch Object Detection Inference")
