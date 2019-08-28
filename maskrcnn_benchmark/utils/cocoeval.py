@@ -58,7 +58,7 @@ class CusCOCOeval(COCOeval):
             stats[5+i] = _summarize(0, maxDets=self.params.maxDets[0])
             stats[6+i] = _summarize(0, maxDets=self.params.maxDets[1])
             for j, iouthr in enumerate(self.params.iouThrs):
-                stats[7+i+j] = _summarize(0, iouThr=iouthr, maxDets=self.params.maxDets[2])
+                stats[7+i+j] = _summarize(0, iouThr=iouthr, maxDets=self.params.maxDets[1])
             stats[8+i+j] = _summarize(0, areaRng='small', maxDets=self.params.maxDets[2])
             stats[9+i+j] = _summarize(0, areaRng='medium', maxDets=self.params.maxDets[2])
             stats[10+i+j] = _summarize(0, areaRng='large', maxDets=self.params.maxDets[2])
