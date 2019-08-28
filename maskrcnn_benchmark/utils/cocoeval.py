@@ -46,7 +46,7 @@ class CusCOCOeval(COCOeval):
                 mean_s = np.mean(s[s>-1])
             print(iStr.format(titleStr, typeStr, iouStr, areaRng, maxDets, mean_s))
             return mean_s
-        def _summarizeDets(self):
+        def _summarizeDets():
             stats = np.zeros((11 + len(self.params.iouThrs),))
             stats[0] = _summarize(1)
             for i, iouthr in enumerate(self.params.iouThrs):
