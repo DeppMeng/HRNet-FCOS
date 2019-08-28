@@ -437,6 +437,7 @@ def evaluate_json_file_only_human_on_coco(
     coco_eval = CusCOCOeval(coco_gt, coco_dt, iou_type)
     coco_eval.params.catIds = [1]
     coco_eval.params.iouThrs = np.linspace(.05, 0.95, np.round((0.95 - .5) / .05) + 1, endpoint=True)
+    coco_eval.params.maxDet[1] = 30
     coco_eval.evaluate()
     coco_eval.accumulate()
     coco_eval.summarize()
