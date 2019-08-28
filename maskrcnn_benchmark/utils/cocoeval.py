@@ -47,7 +47,7 @@ class CusCOCOeval(COCOeval):
             print(iStr.format(titleStr, typeStr, iouStr, areaRng, maxDets, mean_s))
             return mean_s
         def _summarizeDets():
-            stats = np.zeros((11 + len(self.params.iouThrs),))
+            stats = np.zeros((11 + 2*len(self.params.iouThrs),))
             stats[0] = _summarize(1)
             for i, iouthr in enumerate(self.params.iouThrs):
                 stats[1+i] = _summarize(1, iouThr=iouthr, maxDets=self.params.maxDets[2])
@@ -57,10 +57,11 @@ class CusCOCOeval(COCOeval):
             stats[4+i] = _summarize(1, areaRng='large', maxDets=self.params.maxDets[2])
             stats[5+i] = _summarize(0, maxDets=self.params.maxDets[0])
             stats[6+i] = _summarize(0, maxDets=self.params.maxDets[1])
-            stats[7+i] = _summarize(0, maxDets=self.params.maxDets[2])
-            stats[8+i] = _summarize(0, areaRng='small', maxDets=self.params.maxDets[2])
-            stats[9+i] = _summarize(0, areaRng='medium', maxDets=self.params.maxDets[2])
-            stats[10+i] = _summarize(0, areaRng='large', maxDets=self.params.maxDets[2])
+            for j, iouthr in enumerate(self.params.iouThrs):
+                stats[7+i+j] = _summarize(0, iouThr=iouthr, maxDets=self.params.maxDets[2])
+            stats[8+i+j] = _summarize(0, areaRng='small', maxDets=self.params.maxDets[2])
+            stats[9+i+j] = _summarize(0, areaRng='medium', maxDets=self.params.maxDets[2])
+            stats[10+i+j] = _summarize(0, areaRng='large', maxDets=self.params.maxDets[2])
             return stats
         def _summarizeKps():
             stats = np.zeros((10,))
